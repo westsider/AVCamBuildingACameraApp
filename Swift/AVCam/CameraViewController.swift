@@ -10,6 +10,9 @@ import AVFoundation
 import CoreLocation
 import Photos
 
+// request front cam
+// set portrait on
+
 class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, ItemSelectionViewControllerDelegate {
     
     private var spinner: UIActivityIndicatorView!
@@ -225,18 +228,22 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             
             // Choose the back dual camera, if available, otherwise default to a wide angle camera.
             
-            if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
-                defaultVideoDevice = dualCameraDevice
-            } else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
-                // If a rear dual camera is not available, default to the rear dual wide camera.
-                defaultVideoDevice = dualWideCameraDevice
-            } else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-                // If a rear dual wide camera is not available, default to the rear wide angle camera.
-                defaultVideoDevice = backCameraDevice
-            } else if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
+//            if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
+//                defaultVideoDevice = dualCameraDevice
+//            } else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
+//                // If a rear dual camera is not available, default to the rear dual wide camera.
+//                defaultVideoDevice = dualWideCameraDevice
+//            } else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+//                // If a rear dual wide camera is not available, default to the rear wide angle camera.
+//                defaultVideoDevice = backCameraDevice
+//            } else
+            
+            if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
                 // If the rear wide angle camera isn't available, default to the front wide angle camera.
                 defaultVideoDevice = frontCameraDevice
             }
+             
+            
             guard let videoDevice = defaultVideoDevice else {
                 print("Default video device is unavailable.")
                 setupResult = .configurationFailed
@@ -489,6 +496,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     private let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera, .builtInDualWideCamera],
                                                                                mediaType: .video, position: .unspecified)
+    
 
     /// - Tag: ChangeCamera
     @IBAction private func changeCamera(_ cameraButton: UIButton) {
@@ -788,7 +796,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
-    private var depthDataDeliveryMode: DepthDataDeliveryMode = .off
+    private var depthDataDeliveryMode: DepthDataDeliveryMode = .on
     
     @IBOutlet private weak var depthDataDeliveryButton: UIButton!
     
@@ -816,7 +824,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
-    private var portraitEffectsMatteDeliveryMode: PortraitEffectsMatteDeliveryMode = .off
+    private var portraitEffectsMatteDeliveryMode: PortraitEffectsMatteDeliveryMode = .on
     
     @IBOutlet private weak var portraitEffectsMatteDeliveryButton: UIButton!
     
